@@ -28,15 +28,16 @@ class Match extends React.Component {
 		super();
 		this.state = {
 			"court": "central",
+			"currentSet": 1,
 			"players" : [{
 				"name": "Roger Federer",
-				"games": [6, 3, 3],
+				"games": [6, 3, 0],
 				"points": 1,
 				"serve": false
 			},
 			{
 				"name": "Rafael Nadal",
-				"games": [3, 6, 3],
+				"games": [3, 4, 0],
 				"points": 2,
 				"serve": true
 			}]
@@ -50,14 +51,18 @@ class Match extends React.Component {
 		return () => {
 			var p1 = this.state.players[p];
 			var p2 = this.state.players[(p + 1) %2];
+			var currentSet = this.state.currentSet;
 			if (p2.points == 4) {
 				p2.points--;
 			} else {
 				p1.points++;
 				if (p2.points < 3 && p1.points > 3 || p2.points >=3 && (p1.points - p2.points) >= 2) {
-					p1.games[2]++;
+					p1.games[currentSet]++;
 					p1.points = 0;
 					p2.points = 0;
+					if (p1.games[currentSet] == 6 && p1.games[currentSet] > p2.games[currentSet] + 2) {
+						this.state.currentSet++;
+					}
 				} 
 			}
 			
@@ -73,7 +78,7 @@ class Match extends React.Component {
 			if (p1.points > 0) {
 				p1.points--;
 			} else {
-				p1.games[2]--;
+				p1.games[this.state.currentSet]--;
 				p2.points = 0; 
 			}
 			

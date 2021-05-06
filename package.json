@@ -1,0 +1,24 @@
+{
+  "name": "itf_scorer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "path": "^0.12.7",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^4.7.0"
+  },
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-standalone": "^6.26.0",
+    "bootstrap": "^5.0.0"
+  }
+}

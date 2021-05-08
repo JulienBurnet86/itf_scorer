@@ -1,3 +1,5 @@
+import matches from "./matches.js";
+
 let socket = new WebSocket("ws://localhost:8080");
 class Player extends React.Component {
 	
@@ -15,15 +17,17 @@ class Player extends React.Component {
 		} else {
 			point = p.points;
 		}
-		return <tr>
-			<td>{p.name}</td>
-			<td>{p.games[0]}</td>
-			<td>{p.games[1]}</td>
-			<td>{p.games[2]}</td>
-			<td>{point}</td>
-			<td><button type="button" className="btn btn-primary" onClick={this.props.addPoint}>Add Point</button></td>
-			<td><button type="button" className="btn btn-primary" onClick={this.props.removePoint}>Remove Point</button></td>
-		</tr>
+		return <div className="col-6 col-sm-12 main-div">
+			<div className="row player">
+				<span className="player-infos col-4">{p.name}</span>
+				<span className="player-infos col-1">{p.games[0]}</span>
+				<span className="player-infos col-1">{p.games[1]}</span>
+				<span className="player-infos col-1">{p.games[2]}</span>
+				<span className="player-infos col-1">{point}</span>
+				<div className="col-2"><button type="button" className="btn btn-primary btn-lg" onClick={this.props.addPoint}>Add Point</button></div>
+				<div className="col-2"><button type="button" className="btn btn-primary btn-lg" onClick={this.props.removePoint}>Remove Point</button></div>
+			</div>
+		</div>
 	}
 }
 
@@ -32,20 +36,8 @@ class Match extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			"court": "central",
-			"currentSet": 1,
-			"players" : [{
-				"name": "Roger Federer",
-				"games": [6, 3, 0],
-				"points": 1,
-				"serve": false
-			},
-			{
-				"name": "Rafael Nadal",
-				"games": [3, 4, 0],
-				"points": 2,
-				"serve": true
-			}]
+			"Match": "1",
+			... matches[0]
 		}
 		this.addPoint = this.addPoint.bind(this)
 		this.removePoint = this.removePoint.bind(this)
@@ -118,16 +110,13 @@ class Match extends React.Component {
 		var match = this.state;
         return (
 			<div className="container">
-				<div className="col-6">
-
-					<h1>Current Match</h1>
-					<table className="table">
-						<tbody>
+				<div className="row">
+						<div className="col-6 col-sm-12">
+							<h1 className="mx-auto">Current Match</h1>
 							<Player player={match.players[0]} addPoint={this.addPoint(0)} removePoint={this.removePoint(0)}/>
+							<hr />
 							<Player player={match.players[1]} addPoint={this.addPoint(1)} removePoint={this.removePoint(1)}/>
-						</tbody>
-					</table>
-
+						</div>
 				</div>
 			</div>
         );

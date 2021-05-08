@@ -1,9 +1,26 @@
+<head>
+	<style>
+		div.main-div {
+			font-size: 30px;
+			width: 100%;
+		}
+		div.row div.player {
+			height: 30%;
+		}
+		div.row * {
+			height: 100%;
+		}
+		div.row span.player-infos {
+			margin-top: 5%;
+  			vertical-align: middle;
+		}
+	</style>
+</head>
+
 <body>
     <div id="root"></div>
     <!-- scripts -->
-	<script src="modules/babel-standalone/babel.min.js"></script>
-	<script src="modules/react/umd/react.development.js" crossorigin></script>  
-	<script src="modules/react-dom/umd/react-dom.development.js" crossorigin></script>
-	<script type="text/babel" src="app.jsx"></script>
-	<link href="modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+	<script src="bundles.js"></script>
+	<script type="module" src="app.js"></script>
+	<link href="bootstrap.min.css" rel="stylesheet">
 </body>

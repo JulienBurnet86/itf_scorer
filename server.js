@@ -16,11 +16,14 @@ const wsServer = new WebSocket.Server({
 });
 
 let sockets = [];
+var lastMsg;
 wsServer.on('connection', function(socket) {
   sockets.push(socket);
-
+  if (lastMsg)
+  socket.send(lastMsg);
   // When you receive a message, send that message to every socket.
   socket.on('message', function(msg) {
+	lastMsg = msg;
     sockets.forEach(s => s.send(msg));
   });
 

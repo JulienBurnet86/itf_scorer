@@ -114,6 +114,7 @@ class Match extends React.Component {
 			if (!p.games) p.games = [0, 0, 0];
 		}
 		this.setState(match)
+		socket.send(JSON.stringify(match))
 	}
 
     render() {

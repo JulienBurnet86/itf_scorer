@@ -137,6 +137,7 @@ class Match extends React.Component {
     }
 
     this.setState(match);
+    socket.send(JSON.stringify(match));
   }
 
   render() {

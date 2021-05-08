@@ -110,10 +110,8 @@ class Match extends React.Component {
 			match.currentSet = 0
 		}
 		for (var p of match.players) {
-			console.log(p)
 			if (!p.points) p.points = 0;
 			if (!p.games) p.games = [0, 0, 0];
-			console.log(p)
 		}
 		this.setState(match)
 	}

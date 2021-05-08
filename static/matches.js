@@ -13,5 +13,13 @@ export default [
 			"points": 2,
 			"serve": true
 		}]
+	},
+	{
+		"players" : [{
+			"name": "Dominic Thiem",
+		},
+		{
+			"name": "Alexander Zverev",
+		}]
 	}
 ]

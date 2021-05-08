@@ -52,12 +52,10 @@ class Player extends React.Component {
 class Match extends React.Component {
   constructor() {
     super();
-    this.state = {
-      "Match": "1",
-      ...matches[0]
-    };
+    this.state = matches[0];
     this.addPoint = this.addPoint.bind(this);
     this.removePoint = this.removePoint.bind(this);
+    this.changeMatch = this.changeMatch.bind(this);
     var msg = this.state;
 
     socket.onopen = function (e) {
@@ -126,17 +124,37 @@ class Match extends React.Component {
     }
   }
 
+  changeMatch(e) {
+    var match = matches[e.target.value];
+
+    if (!match.currentSet) {
+      match.currentSet = 0;
+    }
+
+    for (var p of match.players) {
+      if (!p.points) p.points = 0;
+      if (!p.games) p.games = [0, 0, 0];
+    }
+
+    this.setState(match);
+  }
+
   render() {
     var match = this.state;
+    var changeMatch = this.changeMatch;
     return /*#__PURE__*/React.createElement("div", {
       className: "container"
     }, /*#__PURE__*/React.createElement("div", {
       className: "row"
     }, /*#__PURE__*/React.createElement("div", {
       className: "col-6 col-sm-12"
-    }, /*#__PURE__*/React.createElement("h1", {
-      className: "mx-auto"
-    }, "Current Match"), /*#__PURE__*/React.createElement(Player, {
+    }, /*#__PURE__*/React.createElement("h1", null, /*#__PURE__*/React.createElement("select", {
+      onChange: changeMatch
+    }, matches.map(function (match, idx) {
+      return /*#__PURE__*/React.createElement("option", {
+        value: idx
+      }, match.players[0].name, " / ", match.players[1].name);
+    }))), /*#__PURE__*/React.createElement(Player, {
       player: match.players[0],
       addPoint: this.addPoint(0),
       removePoint: this.removePoint(0)

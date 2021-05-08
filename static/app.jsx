@@ -1,11 +1,12 @@
+let socket = new WebSocket("ws://localhost:8080");
 class Player extends React.Component {
 	
 	scores = ["0", "15", "30", "40", "AD"]
-
+	
 	constructor() {
 		super()
 	}
-
+	
 	render() {
 		var p = this.props.player
 		var point;
@@ -48,6 +49,10 @@ class Match extends React.Component {
 		}
 		this.addPoint = this.addPoint.bind(this)
 		this.removePoint = this.removePoint.bind(this)
+		var msg = this.state;
+		socket.onopen = function(e) {
+			socket.send(JSON.stringify(msg));
+		};
 	}
 
 	addPoint = function(p) {
@@ -81,6 +86,7 @@ class Match extends React.Component {
 			}
 			
 			this.setState(this.state)
+			socket.send(JSON.stringify(this.state));
 		}
 	}
 	
@@ -97,6 +103,7 @@ class Match extends React.Component {
 			}
 			
 			this.setState(this.state)
+			socket.send(JSON.stringify(this.state))
 		}
 	}
 

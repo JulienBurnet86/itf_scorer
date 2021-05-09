@@ -12,7 +12,7 @@ app.set('port', process.env.PORT || 3000);
 
 const WebSocket = require('ws');
 const wsServer = new WebSocket.Server({
-  port: 8080
+  port: 8800
 });
 
 let sockets = [];

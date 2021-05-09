@@ -24,8 +24,8 @@ class Player extends React.Component {
 				<span className="player-infos col-1">{p.games[1]}</span>
 				<span className="player-infos col-1">{p.games[2]}</span>
 				<span className="player-infos col-1">{point}</span>
-				<div className="col-2"><button type="button" className="btn btn-primary btn-lg" onClick={this.props.addPoint}>Add Point</button></div>
-				<div className="col-2"><button type="button" className="btn btn-primary btn-lg" onClick={this.props.removePoint}>Remove Point</button></div>
+				<div className="col-2 btncls"><button type="button" className="btn btn-primary btn-lg btn-block" onClick={this.props.addPoint}>Add Point</button></div>
+				<div className="col-2 btncls"><button type="button" className="btn btn-primary btn-lg btn-block" onClick={this.props.removePoint}>Remove Point</button></div>
 			</div>
 		</div>
 	}

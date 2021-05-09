@@ -33,16 +33,16 @@ class Player extends React.Component {
     }, p.games[2]), /*#__PURE__*/React.createElement("span", {
       className: "player-infos col-1"
     }, point), /*#__PURE__*/React.createElement("div", {
-      className: "col-2"
+      className: "col-2 btncls"
     }, /*#__PURE__*/React.createElement("button", {
       type: "button",
-      className: "btn btn-primary btn-lg",
+      className: "btn btn-primary btn-lg btn-block",
       onClick: this.props.addPoint
     }, "Add Point")), /*#__PURE__*/React.createElement("div", {
-      className: "col-2"
+      className: "col-2 btncls"
     }, /*#__PURE__*/React.createElement("button", {
       type: "button",
-      className: "btn btn-primary btn-lg",
+      className: "btn btn-primary btn-lg btn-block",
       onClick: this.props.removePoint
     }, "Remove Point"))));
   }

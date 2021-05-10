@@ -1,6 +1,5 @@
 export default [
 	{
-		"currentSet": 1,
 		"players" : [{
 			"name": "Margo YEROLIMOS",
 		},

@@ -2,24 +2,50 @@ export default [
 	{
 		"currentSet": 1,
 		"players" : [{
-			"name": "Roger Federer",
-			"games": [6, 3, 0],
-			"points": 1,
-			"serve": false
+			"name": "Margo YEROLIMOS",
 		},
 		{
-			"name": "Rafael Nadal",
-			"games": [3, 4, 0],
-			"points": 2,
-			"serve": true
+			"name": "Lucie NGUYEN TAN",
 		}]
 	},
 	{
 		"players" : [{
-			"name": "Dominic Thiem",
+			"name": "Darya ASTAKHOVA",
 		},
 		{
-			"name": "Alexander Zverev",
+			"name": "Sina HERRMANN",
+		}]
+	},
+	{
+		"players" : [{
+			"name": "Diane PARRY",
+		},
+		{
+			"name": "Gaelle DESPERRIER",
+		}]
+	},
+	{
+		"players" : [{
+			"name": "Jade SUVRIJN",
+		},
+		{
+			"name": "Audrey ALBIE",
+		}]
+	},
+	{
+		"players" : [{
+			"name": "Leolia JEANJEAN",
+		},
+		{
+			"name": "Valerya STRAKHOVA",
+		}]
+	},
+	{
+		"players" : [{
+			"name": "Katharina GERLACH",
+		},
+		{
+			"name": "Estelle CASCINO",
 		}]
 	}
 ]

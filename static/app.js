@@ -1,5 +1,5 @@
 import matches from "./matches.js";
-let socket = new WebSocket("ws://localhost:8080");
+let socket = new WebSocket("ws://82.165.96.150:8800");
 
 class Player extends React.Component {
   scores = ["0", "15", "30", "40", "AD"];
@@ -52,7 +52,7 @@ class Player extends React.Component {
 class Match extends React.Component {
   constructor() {
     super();
-    this.state = matches[0];
+    this.state = this.initMatch(matches[0]);
     this.addPoint = this.addPoint.bind(this);
     this.removePoint = this.removePoint.bind(this);
     this.changeMatch = this.changeMatch.bind(this);
@@ -126,7 +126,12 @@ class Match extends React.Component {
 
   changeMatch(e) {
     var match = matches[e.target.value];
+    this.initMatch(match);
+    this.setState(match);
+    socket.send(JSON.stringify(match));
+  }
 
+  initMatch(match) {
     if (!match.currentSet) {
       match.currentSet = 0;
     }
@@ -136,13 +141,11 @@ class Match extends React.Component {
       if (!p.games) p.games = [0, 0, 0];
     }
 
-    this.setState(match);
-    socket.send(JSON.stringify(match));
+    return match;
   }
 
   render() {
     var match = this.state;
-    var changeMatch = this.changeMatch;
     return /*#__PURE__*/React.createElement("div", {
       className: "container"
     }, /*#__PURE__*/React.createElement("div", {
@@ -150,7 +153,7 @@ class Match extends React.Component {
     }, /*#__PURE__*/React.createElement("div", {
       className: "col-6 col-sm-12"
     }, /*#__PURE__*/React.createElement("h1", null, /*#__PURE__*/React.createElement("select", {
-      onChange: changeMatch
+      onChange: this.changeMatch
     }, matches.map(function (match, idx) {
       return /*#__PURE__*/React.createElement("option", {
         value: idx

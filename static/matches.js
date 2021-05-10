@@ -1,50 +1,50 @@
 export default [
 	{
 		"players" : [{
-			"name": "Margo YEROLIMOS",
+			"name": "M. YEROLIMOS",
 		},
 		{
-			"name": "Lucie NGUYEN TAN",
+			"name": "L. NGUYEN TAN",
 		}]
 	},
 	{
 		"players" : [{
-			"name": "Darya ASTAKHOVA",
+			"name": "D. ASTAKHOVA",
 		},
 		{
-			"name": "Sina HERRMANN",
+			"name": "S. HERRMANN",
 		}]
 	},
 	{
 		"players" : [{
-			"name": "Diane PARRY",
+			"name": "D. PARRY",
 		},
 		{
-			"name": "Gaelle DESPERRIER",
+			"name": "G. DESPERRIER",
 		}]
 	},
 	{
 		"players" : [{
-			"name": "Jade SUVRIJN",
+			"name": "J. SUVRIJN",
 		},
 		{
-			"name": "Audrey ALBIE",
+			"name": "A. ALBIE",
 		}]
 	},
 	{
 		"players" : [{
-			"name": "Leolia JEANJEAN",
+			"name": "L. JEANJEAN",
 		},
 		{
-			"name": "Valerya STRAKHOVA",
+			"name": "V. STRAKHOVA",
 		}]
 	},
 	{
 		"players" : [{
-			"name": "Katharina GERLACH",
+			"name": "K. GERLACH",
 		},
 		{
-			"name": "Estelle CASCINO",
+			"name": "E. CASCINO",
 		}]
 	}
 ]

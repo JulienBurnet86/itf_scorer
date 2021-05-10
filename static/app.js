@@ -1,6 +1,5 @@
-import matches from "./matches.js"; // let socket = new WebSocket("ws://82.165.96.150:8800");
-
-let socket = new WebSocket("ws://localhost:8800");
+import matches from "./matches.js";
+let socket = new WebSocket("ws://82.165.96.150:8800"); // let socket = new WebSocket("ws://localhost:8800");
 
 class Player extends React.Component {
   scores = ["0", "15", "30", "40", "AD"];
@@ -25,7 +24,10 @@ class Player extends React.Component {
       className: "row player"
     }, /*#__PURE__*/React.createElement("span", {
       className: "player-infos col-4"
-    }, p.name), /*#__PURE__*/React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("input", {
+      type: "checkbox",
+      checked: p.serve
+    }), " \xA0 ", p.name), /*#__PURE__*/React.createElement("span", {
       className: "player-infos col-1"
     }, p.games[0]), /*#__PURE__*/React.createElement("span", {
       className: "player-infos col-1"
@@ -94,6 +96,15 @@ class Match extends React.Component {
 
           if (p2.points < 3 && p1.points > 3 || p2.points >= 3 && p1.points - p2.points >= 2) {
             p1.games[currentSet]++;
+
+            if (p1.serve) {
+              p1.serve = false;
+              p2.serve = true;
+            } else {
+              p2.serve = false;
+              p1.serve = true;
+            }
+
             p1.points = 0;
             p2.points = 0;
 
@@ -165,6 +176,10 @@ class Match extends React.Component {
     for (var p of match.players) {
       if (!p.points) p.points = 0;
       if (!p.games) p.games = [0, 0, 0];
+
+      if (p.serve === undefined) {
+        p.serve = false;
+      }
     }
 
     return match;

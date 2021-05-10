@@ -1,7 +1,7 @@
 import matches from "./matches.js";
 
-// let socket = new WebSocket("ws://82.165.96.150:8800");
-let socket = new WebSocket("ws://localhost:8800");
+let socket = new WebSocket("ws://82.165.96.150:8800");
+// let socket = new WebSocket("ws://localhost:8800");
 class Player extends React.Component {
 	
 	scores = ["0", "15", "30", "40", "AD"]
@@ -20,7 +20,7 @@ class Player extends React.Component {
 		}
 		return <div className="col-6 col-sm-12 main-div">
 			<div className="row player">
-				<span className="player-infos col-4">{p.name}</span>
+				<span className="player-infos col-4"><input type="checkbox" checked={p.serve}/> &nbsp; {p.name}</span>
 				<span className="player-infos col-1">{p.games[0]}</span>
 				<span className="player-infos col-1">{p.games[1]}</span>
 				<span className="player-infos col-1">{p.games[2]}</span>
@@ -69,6 +69,13 @@ class Match extends React.Component {
 					p1.points++;
 					if (p2.points < 3 && p1.points > 3 || p2.points >=3 && (p1.points - p2.points) >= 2) {
 						p1.games[currentSet]++;
+						if (p1.serve) {
+							p1.serve = false;
+							p2.serve = true;
+						} else {
+							p2.serve = false;
+							p1.serve = true;
+						}
 						p1.points = 0;
 						p2.points = 0;
 						if (this.isEndOfSet(p1, currentSet, p2)) {
@@ -141,6 +148,9 @@ class Match extends React.Component {
 				p.points = 0;
 			if (!p.games)
 				p.games = [0, 0, 0];
+			if (p.serve === undefined) {
+				p.serve = false;
+			}
 		}
 		return match;
 	}

@@ -1,5 +1,6 @@
-import matches from "./matches.js";
 let socket = new WebSocket("ws://82.165.96.150:8800"); // let socket = new WebSocket("ws://localhost:8800");
+
+const matches = [];
 
 class Player extends React.Component {
   scores = ["0", "15", "30", "40", "AD"];
@@ -62,16 +63,28 @@ class Player extends React.Component {
 class Match extends React.Component {
   constructor() {
     super();
-    this.state = this.initMatch(matches[0]);
     this.addPoint = this.addPoint.bind(this);
     this.removePoint = this.removePoint.bind(this);
     this.changeMatch = this.changeMatch.bind(this);
     this.isEndOfSet = this.isEndOfSet.bind(this);
     this.setServe = this.setServe.bind(this);
-    var msg = this.state;
+    var that = this;
 
     socket.onopen = function (e) {
-      socket.send(JSON.stringify(msg));
+      socket.onmessage = function (e) {
+        const msg = JSON.parse(e.data);
+        console.log(msg);
+
+        if (msg.type == "init") {
+          for (var m of msg.matches) {
+            matches.push(m);
+          }
+
+          that.setState(matches[msg.currentIdx]);
+          console.log(matches[msg.currentIdx]);
+        }
+      }; // socket.send(JSON.stringify(msg));
+
     };
   }
 
@@ -172,27 +185,10 @@ class Match extends React.Component {
   }
 
   changeMatch(e) {
-    var match = matches[e.target.value];
-    this.initMatch(match);
+    const idx = e.target.value;
+    const match = matches[idx];
     this.setState(match);
     socket.send(JSON.stringify(match));
-  }
-
-  initMatch(match) {
-    if (!match.currentSet) {
-      match.currentSet = 0;
-    }
-
-    for (var p of match.players) {
-      if (!p.points) p.points = 0;
-      if (!p.games) p.games = [0, 0, 0];
-
-      if (p.serve === undefined) {
-        p.serve = false;
-      }
-    }
-
-    return match;
   }
 
   setServe(idx) {
@@ -208,6 +204,13 @@ class Match extends React.Component {
 
   render() {
     var match = this.state;
+    console.log(match);
+
+    if (!match) {
+      return /*#__PURE__*/React.createElement("div", null, "EMPTY");
+    }
+
+    var currentIdx = match.idx;
     return /*#__PURE__*/React.createElement("div", {
       className: "container"
     }, /*#__PURE__*/React.createElement("div", {
@@ -218,6 +221,7 @@ class Match extends React.Component {
       onChange: this.changeMatch
     }, matches.map(function (match, idx) {
       return /*#__PURE__*/React.createElement("option", {
+        selected: idx == currentIdx,
         value: idx
       }, match.players[0].name, " / ", match.players[1].name);
     }))), /*#__PURE__*/React.createElement(Player, {

@@ -1,5 +1,25 @@
 var express = require('express');
 var path = require('path');
+var matches = require("./static/matches.json");
+var currentIdx = 0;
+for (var idx in matches) {
+	const match = matches[idx]
+	if (!match.idx) {
+		match.idx = idx;
+	}
+	if (!match.currentSet) {
+		match.currentSet = 0;
+	}
+	for (var p of match.players) {
+		if (!p.points)
+			p.points = 0;
+		if (!p.games)
+			p.games = [0, 0, 0];
+		if (p.serve === undefined) {
+			p.serve = false;
+		}
+	}
+}
 
 var app = express();
 
@@ -16,14 +36,15 @@ const wsServer = new WebSocket.Server({
 });
 
 let sockets = [];
-var lastMsg;
 wsServer.on('connection', function(socket) {
   sockets.push(socket);
-  if (lastMsg)
-  socket.send(lastMsg);
+  const initMsg = { 'type': 'init', 'currentIdx': currentIdx, 'matches': matches };
+  socket.send(JSON.stringify(initMsg));
   // When you receive a message, send that message to every socket.
   socket.on('message', function(msg) {
-	lastMsg = msg;
+    var match = JSON.parse(msg);
+	matches[match.idx] = match;
+	currentIdx = match.idx;
     sockets.forEach(s => s.send(msg));
   });
 

@@ -57,7 +57,7 @@ class Match extends React.Component {
 			if (p1.games[currentSet] == 6 && p2.games[currentSet] == 6) {
 				p1.tiebreak = true;
 				p1.points++;
-				if (p1.points >= 7 && p1.points > p2.points +2) {
+				if (p1.points >= 7 && p1.points >= (p2.points +2)) {
 					p1.games[currentSet]++;
 					this.state.currentSet++;
 					this.resetPoints(this.state.players);

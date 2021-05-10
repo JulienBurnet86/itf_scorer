@@ -26,7 +26,8 @@ class Player extends React.Component {
       className: "player-infos col-4"
     }, /*#__PURE__*/React.createElement("input", {
       type: "checkbox",
-      checked: p.serve
+      checked: p.serve,
+      onChange: this.props.setServe
     }), " \xA0 ", p.name), /*#__PURE__*/React.createElement("span", {
       className: "player-infos col-1"
     }, p.games[0]), /*#__PURE__*/React.createElement("span", {
@@ -66,6 +67,7 @@ class Match extends React.Component {
     this.removePoint = this.removePoint.bind(this);
     this.changeMatch = this.changeMatch.bind(this);
     this.isEndOfSet = this.isEndOfSet.bind(this);
+    this.setServe = this.setServe.bind(this);
     var msg = this.state;
 
     socket.onopen = function (e) {
@@ -81,6 +83,11 @@ class Match extends React.Component {
 
       if (p1.games[currentSet] == 6 && p2.games[currentSet] == 6) {
         p1.tiebreak = true;
+
+        if (p1.points == 0 && p2.points == 0 || (p1.points + p2.points) % 2 == 0) {
+          this.switchServe(p1, p2);
+        }
+
         p1.points++;
 
         if (p1.points >= 7 && p1.points >= p2.points + 2) {
@@ -96,15 +103,7 @@ class Match extends React.Component {
 
           if (p2.points < 3 && p1.points > 3 || p2.points >= 3 && p1.points - p2.points >= 2) {
             p1.games[currentSet]++;
-
-            if (p1.serve) {
-              p1.serve = false;
-              p2.serve = true;
-            } else {
-              p2.serve = false;
-              p1.serve = true;
-            }
-
+            this.switchServe(p1, p2);
             p1.points = 0;
             p2.points = 0;
 
@@ -145,10 +144,21 @@ class Match extends React.Component {
         this.state.currentSet++;
       }
 
+      this.switchServe(p1, p2);
       this.setState(this.state);
       socket.send(JSON.stringify(this.state));
     };
   };
+
+  switchServe(p1, p2) {
+    if (p1.serve) {
+      p1.serve = false;
+      p2.serve = true;
+    } else {
+      p2.serve = false;
+      p1.serve = true;
+    }
+  }
 
   isEndOfSet(p1, currentSet, p2) {
     return p1.games[currentSet] >= 6 && p1.games[currentSet] - p2.games[currentSet] >= 2;
@@ -185,6 +195,17 @@ class Match extends React.Component {
     return match;
   }
 
+  setServe(idx) {
+    var p1 = this.state.players[idx];
+    var p2 = this.state.players[(idx + 1) % 2];
+    return () => {
+      p1.serve = true;
+      p2.serve = false;
+      this.setState(this.state);
+      socket.send(JSON.stringify(this.state));
+    };
+  }
+
   render() {
     var match = this.state;
     return /*#__PURE__*/React.createElement("div", {
@@ -203,11 +224,13 @@ class Match extends React.Component {
       player: match.players[0],
       addPoint: this.addPoint(0),
       removePoint: this.removePoint(0),
+      setServe: this.setServe(0),
       addGame: this.addGame(0)
     }), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(Player, {
       player: match.players[1],
       addPoint: this.addPoint(1),
       removePoint: this.removePoint(1),
+      setServe: this.setServe(1),
       addGame: this.addGame(1)
     }))));
   }

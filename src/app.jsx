@@ -9,7 +9,7 @@ class Player extends React.Component {
 	constructor() {
 		super()
 	}
-	
+
 	render() {
 		var p = this.props.player
 		var point;
@@ -20,7 +20,7 @@ class Player extends React.Component {
 		}
 		return <div className="col-6 col-sm-12 main-div">
 			<div className="row player">
-				<span className="player-infos col-4"><input type="checkbox" checked={p.serve}/> &nbsp; {p.name}</span>
+				<span className="player-infos col-4"><input type="checkbox" checked={p.serve} onChange={this.props.setServe}/> &nbsp; {p.name}</span>
 				<span className="player-infos col-1">{p.games[0]}</span>
 				<span className="player-infos col-1">{p.games[1]}</span>
 				<span className="player-infos col-1">{p.games[2]}</span>
@@ -42,6 +42,7 @@ class Match extends React.Component {
 		this.removePoint = this.removePoint.bind(this)
 		this.changeMatch = this.changeMatch.bind(this)
 		this.isEndOfSet = this.isEndOfSet.bind(this)
+		this.setServe = this.setServe.bind(this)
 		var msg = this.state;
 		socket.onopen = function(e) {
 			socket.send(JSON.stringify(msg));
@@ -56,6 +57,10 @@ class Match extends React.Component {
 			var currentSet = this.state.currentSet;
 			if (p1.games[currentSet] == 6 && p2.games[currentSet] == 6) {
 				p1.tiebreak = true;
+				if (p1.points == 0 && p2.points == 0
+					|| (p1.points + p2.points) %2 == 0) {
+					this.switchServe(p1, p2);
+				}
 				p1.points++;
 				if (p1.points >= 7 && p1.points >= (p2.points +2)) {
 					p1.games[currentSet]++;
@@ -69,13 +74,7 @@ class Match extends React.Component {
 					p1.points++;
 					if (p2.points < 3 && p1.points > 3 || p2.points >=3 && (p1.points - p2.points) >= 2) {
 						p1.games[currentSet]++;
-						if (p1.serve) {
-							p1.serve = false;
-							p2.serve = true;
-						} else {
-							p2.serve = false;
-							p1.serve = true;
-						}
+						this.switchServe(p1, p2);
 						p1.points = 0;
 						p2.points = 0;
 						if (this.isEndOfSet(p1, currentSet, p2)) {
@@ -116,8 +115,19 @@ class Match extends React.Component {
 			if (this.isEndOfSet(p1, this.state.currentSet, p2) && this.state.currentSet < 2) {
 				this.state.currentSet++;
 			}
+			this.switchServe(p1, p2)
 			this.setState(this.state)
 			socket.send(JSON.stringify(this.state))
+		}
+	}
+
+	switchServe(p1, p2) {
+		if (p1.serve) {
+			p1.serve = false;
+			p2.serve = true;
+		} else {
+			p2.serve = false;
+			p1.serve = true;
 		}
 	}
 
@@ -155,6 +165,17 @@ class Match extends React.Component {
 		return match;
 	}
 
+	setServe(idx) {
+		var p1 = this.state.players[idx];
+		var p2 = this.state.players[(idx + 1) %2];
+		return () => {
+			p1.serve = true;
+			p2.serve = false;
+			this.setState(this.state)
+			socket.send(JSON.stringify(this.state))
+		}
+	}
+
     render() {
 		var match = this.state;
         return (
@@ -168,9 +189,11 @@ class Match extends React.Component {
 								})}
 							</select>
 						</h1>
-						<Player player={match.players[0]} addPoint={this.addPoint(0)} removePoint={this.removePoint(0)} addGame={this.addGame(0)}/>
+						<Player player={match.players[0]} addPoint={this.addPoint(0)} removePoint={this.removePoint(0)}
+							setServe={this.setServe(0)} addGame={this.addGame(0)}/>
 						<hr />
-						<Player player={match.players[1]} addPoint={this.addPoint(1)} removePoint={this.removePoint(1)} addGame={this.addGame(1)}/>
+						<Player player={match.players[1]} addPoint={this.addPoint(1)} removePoint={this.removePoint(1)} 
+							setServe={this.setServe(1)} addGame={this.addGame(1)}/>
 					</div>
 				</div>
 			</div>

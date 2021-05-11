@@ -1,4 +1,5 @@
-let socket = new WebSocket("ws://82.165.96.150:8800");
+const domainName =  window.location.hostname;
+let socket = new WebSocket(`ws://${domainName}:8800`);
 // let socket = new WebSocket("ws://localhost:8800");
 const matches = []
 

@@ -1,6 +1,13 @@
 var express = require('express');
 var path = require('path');
-var matches = require("./static/matches.json");
+var myArgs = process.argv.slice(2);
+if (!myArgs[0])
+	throw new Error("Json file of matches needs to be 1st argment")
+var matchesFile = myArgs[0]
+if (!matchesFile.startsWith("/") && !matchesFile.startsWith(".")) {
+	matchesFile = `./${matchesFile}`
+}
+var matches = require(matchesFile);
 var currentIdx = 0;
 for (var idx in matches) {
 	const match = matches[idx]

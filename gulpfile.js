@@ -25,6 +25,10 @@ gulp.task('scripts', function() {
 
 exports.default = gulp.series('babel')
 
+gulp.task('watch', 	function() {
+	return gulp.watch(['*.html', '*.css', 'src/*'], exports.default)
+})
+
 gulp.task('serve', function() {
 	browserSync.init({
         server: {

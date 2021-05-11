@@ -27,6 +27,7 @@ class Player extends React.Component {
     }, /*#__PURE__*/React.createElement("span", {
       className: "player-infos col-4"
     }, /*#__PURE__*/React.createElement("input", {
+      class: "big-checkbox",
       type: "checkbox",
       checked: p.serve,
       onChange: this.props.setServe
@@ -38,25 +39,29 @@ class Player extends React.Component {
       className: "player-infos col-1"
     }, p.games[2]), /*#__PURE__*/React.createElement("span", {
       className: "player-infos col-1"
-    }, point), /*#__PURE__*/React.createElement("div", {
-      className: "col-1 btncls"
+    }, point), /*#__PURE__*/React.createElement("span", {
+      class: "col-4"
+    }, /*#__PURE__*/React.createElement("span", {
+      class: "row"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "col-4 btncls"
     }, /*#__PURE__*/React.createElement("button", {
       type: "button",
       className: "btn btn-primary btn-lg btn-block",
       onClick: this.props.addPoint
     }, "Point +1")), /*#__PURE__*/React.createElement("div", {
-      className: "col-1 btncls"
+      className: "col-4 btncls"
     }, /*#__PURE__*/React.createElement("button", {
       type: "button",
       className: "btn btn-primary btn-lg btn-block",
       onClick: this.props.removePoint
     }, "Point -1")), /*#__PURE__*/React.createElement("div", {
-      className: "col-1 btncls"
+      className: "col-4 btncls"
     }, /*#__PURE__*/React.createElement("button", {
       type: "button",
       className: "btn btn-primary btn-lg btn-block",
       onClick: this.props.addGame
-    }, "Game +1"))));
+    }, "Game +1"))))));
   }
 
 }
@@ -205,7 +210,6 @@ class Match extends React.Component {
 
   render() {
     var match = this.state;
-    console.log(match);
 
     if (!match) {
       return /*#__PURE__*/React.createElement("div", null, "EMPTY");
@@ -213,7 +217,7 @@ class Match extends React.Component {
 
     var currentIdx = match.idx;
     return /*#__PURE__*/React.createElement("div", {
-      className: "container"
+      className: "container-fluid"
     }, /*#__PURE__*/React.createElement("div", {
       className: "row"
     }, /*#__PURE__*/React.createElement("div", {
@@ -225,7 +229,7 @@ class Match extends React.Component {
         selected: idx == currentIdx,
         value: idx
       }, match.players[0].name, " / ", match.players[1].name);
-    }))), /*#__PURE__*/React.createElement(Player, {
+    }))), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(Player, {
       player: match.players[0],
       addPoint: this.addPoint(0),
       removePoint: this.removePoint(0),

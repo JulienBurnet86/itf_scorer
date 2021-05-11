@@ -22,14 +22,18 @@ class Player extends React.Component {
 		}
 		return <div className="col-6 col-sm-12 main-div">
 			<div className="row player">
-				<span className="player-infos col-4"><input type="checkbox" checked={p.serve} onChange={this.props.setServe}/> &nbsp; {p.name}</span>
+				<span className="player-infos col-4"><input class="big-checkbox" type="checkbox" checked={p.serve} onChange={this.props.setServe}/> &nbsp; {p.name}</span>
 				<span className="player-infos col-1">{p.games[0]}</span>
 				<span className="player-infos col-1">{p.games[1]}</span>
 				<span className="player-infos col-1">{p.games[2]}</span>
 				<span className="player-infos col-1">{point}</span>
-				<div className="col-1 btncls"><button type="button" className="btn btn-primary btn-lg btn-block" onClick={this.props.addPoint}>Point +1</button></div>
-				<div className="col-1 btncls"><button type="button" className="btn btn-primary btn-lg btn-block" onClick={this.props.removePoint}>Point -1</button></div>
-				<div className="col-1 btncls"><button type="button" className="btn btn-primary btn-lg btn-block" onClick={this.props.addGame}>Game +1</button></div>
+				<span class="col-4">
+					<span class="row"> 
+						<div className="col-4 btncls"><button type="button" className="btn btn-primary btn-lg btn-block" onClick={this.props.addPoint}>Point +1</button></div>
+						<div className="col-4 btncls"><button type="button" className="btn btn-primary btn-lg btn-block" onClick={this.props.removePoint}>Point -1</button></div>
+						<div className="col-4 btncls"><button type="button" className="btn btn-primary btn-lg btn-block" onClick={this.props.addGame}>Game +1</button></div>
+					</span>
+				</span>
 			</div>
 		</div>
 	}
@@ -174,13 +178,12 @@ class Match extends React.Component {
 
     render() {
 		var match = this.state;
-		console.log(match);
 		if (!match) {
 			return <div>EMPTY</div>
 		}
 		var currentIdx = match.idx;
         return (
-			<div className="container">
+			<div className="container-fluid">
 				<div className="row">
 					<div className="col-6 col-sm-12">
 						<h1>
@@ -190,6 +193,8 @@ class Match extends React.Component {
 								})}
 							</select>
 						</h1>
+						<br />
+						<hr />
 						<Player player={match.players[0]} addPoint={this.addPoint(0)} removePoint={this.removePoint(0)}
 							setServe={this.setServe(0)} addGame={this.addGame(0)}/>
 						<hr />

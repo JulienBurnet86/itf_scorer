@@ -80,9 +80,11 @@ function update() {
 							],
 							point: eventStatus.game_state ? eventStatus.game_state.away_score : 0
 						}
-						currentMatches[sportEvent.venue.name] = {
-							"player1" : player1,
-							"player2" : player2
+						if(!currentMatches[sportEvent.venue.name] || eventStatus.status == "live") {
+							currentMatches[sportEvent.venue.name] = {
+								"player1" : player1,
+								"player2" : player2
+							}
 						}
 					}
 				}
